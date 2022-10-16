@@ -19,6 +19,7 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "logged_on")
     private LocalDateTime loggedOn;
     private String message;
 

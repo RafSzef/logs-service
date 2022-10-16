@@ -1,5 +1,6 @@
 package pl.niepracuj.logs_service.configuration;
 
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,8 @@ public class DatabaseConfiguration {
     @Value("${packages.to.scan}")
     private String packages;
 
+    @Value("${liquidbase.changelog}")
+    private String changelog;
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -40,6 +43,13 @@ public class DatabaseConfiguration {
         driverManagerDataSource.setUsername(username);
         driverManagerDataSource.setPassword(password);
         return driverManagerDataSource;
+    }
+    @Bean
+    public SpringLiquibase liquibase() {
+        SpringLiquibase springLiquibase = new SpringLiquibase();
+        springLiquibase.setChangeLog(changelog);
+        springLiquibase.setDataSource(getDataSource());
+        return springLiquibase;
     }
 
     @Bean
